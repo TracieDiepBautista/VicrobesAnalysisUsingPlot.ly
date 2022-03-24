@@ -61,77 +61,108 @@ function optionChanged(id) {
 
 // Function 5: to get id, sample_values, otu_ids, otu_labels of TOP 10
 
-// function tracie(sampleValue) {
-//   var selector = d3.select("#selDataset");
-//     d3.json("samples.json").then((data) => {
-//       console.log(data)
+function tracie(sampleValue) {
+  // var selector = d3.select("#selDataset");
+    d3.json("samples.json").then((data) => {
+      console.log(data)
 
-//       var metadatas = data.metadata
-//       console.log(metadatas)
-      
-//       var result = metadatas.filter(sampleObj => sampleObj.id == sampleValue)
-//       console.log(result)
+      var metadatas = data.metadata
+      console.log(metadatas)
 
-//     // Filter the data for the object with the desired sample number (id:940)
-//             // get the "samples" from data set first: 
+      var samples = data.samples
+      console.log(samples)
       
-//       var sampledata = data.samples[0].sample_values;
-//       console.log(sampledata)
-      
-//       var otu_id = data.samples[0].otu_ids;
-//       console.log(otu_id)
-      
-//       var otu_labels = data.samples[0].otu_labels;
-//       console.log(otu_labels)
-      
-//       var sample_value = data.samples[0].sample_values;
-//       console.log(sample_value)  
+      var filteredSample = samples.filter(sampleObj => sampleObj.id == sampleValue)[0]
+      console.log(filteredSample)
 
-//     // now create BAR CHART with above 3 arrays
-//     // Create a function for plotting first: 
+      var filteredmetadata = metadatas.filter(sampleObj => sampleObj.id == sampleValue)[0]
+      console.log(filteredmetadata)
+
+    // Filter the data for the object with the desired sample number (id:940)
+            // get the "samples" from data set first: 
+       
+      var otu_id = filteredSample.otu_ids;
+      console.log(otu_id)
+      
+      var otu_labels = filteredSample.otu_labels;
+      console.log(otu_labels)
+      
+      var sample_value = filteredSample.sample_values;
+      console.log(sample_value)
+
+    // now create BAR CHART with above 3 arrays
+    // Create a function for plotting first: 
     
-// // create a Trace for plotting:
-//       var bar_values = [{
-//           x : sample_value,
-//           y : otu_id,
-//           text: otu_labels,
-//           type: "bar",
-//           orientation: "horizontal",
-//           marker: {color: "red"},
-//       }]
+// create a Trace for plotting:
+      var bar_values = [{
+          x : sample_value.slice(0,10).reverse(),
+          y : otu_id.slice(0,10).map(otu_id=> `OTU ${otu_id}`).reverse(),
+          text: otu_labels.slice(0,10).reverse(),
+          type: "bar",
+          orientation: "h",
+          marker: {color: "red"},
+      }]
       
-//     // define the bar layout format: 
-//       var bar_format = {
-//           title: "Top 10 Microbial Species in Belly Button",
-//           xaxis: "Bacteria Sample Values",
-//           yaxis: "OTU IDs"
-//       };
+    // define the bar layout format: 
+      var bar_format = {
+          title: "Top 10 Microbial Species in Belly Button",
+          xaxis: "Bacteria Sample Values",
+          yaxis: "OTU IDs"
+      };
       
-//       Plotly.newPlot("bar", bar_values, bar_format)
+      Plotly.newPlot("bar", bar_values, bar_format)
 
-//     });
+   // Create BUBBLE CHART for each sample ids with otu_ids and sample_values   
+      var bubble_values = [{
+          x: otu_id,
+          y: sample_value,
+          text: otu_labels,
+          mode: "markers",
+          marker: {
+              color: otu_id,
+              size: sample_value,
+              colorscale: "continent"
+        }
+      }];
 
-//    // Create BUBBLE CHART for each sample ids with otu_ids and sample_values   
-//       var bubble_values = [{
-//           x: otu_id,
-//           y: sample_value,
-//           text: otu_labels,
-//           mode: "markers",
-//           marker: {
-//               color: otu_id,
-//               size: sample_value,
-//               colorscale: "continent"
-//         }
-//       }];
+    // Define bubble layout format:   
+      var layout = {
+        title: "Belly Button Samples",
+        xaxis: {title: "OTU IDs"},
+        yaxis: {title: "Sample Values"}
+      };
 
-//     // Define bubble layout format:   
-//       var layout = {
-//         title: "Belly Button Samples",
-//         xaxis: {title: "OTU IDs"},
-//         yaxis: {title: "Sample Values"}
-//       };
+      Plotly.newPlot("bubble", bubble_values, layout)
+    
+   // GAUGE CHART (advance)
 
-//       Plotly.newPlot("bubble", bubble_values, layout)};
-            
-      
-      
+        // Create variable for washing frequency
+      var washFreq = filteredmetadata.wfreq
+
+        // Create the trace
+      var gauge_data = [{
+                domain: { x: [0, 1], y: [0, 1] },
+                value: washFreq,
+                title: { text: "Washing Frequency (Times per Week)" },
+                type: "indicator",
+                mode: "gauge+number",
+                gauge: {
+                    bar: {color: 'white'},
+                    axis: { range: [null, 9] },
+                    steps: [
+                        { range: [0, 3], color: 'rgb(253, 162, 73)' },
+                        { range: [3, 6], color: 'rgb(242, 113, 102)' },
+                        { range: [6, 9], color: 'rgb(166, 77, 104)' },
+                    ],
+                }
+            }
+        ];
+
+        // Define Plot layout
+        var gauge_layout = { width: 500, height: 400, margin: { t: 0, b: 0 } };
+
+        // Display plot
+        Plotly.newPlot('gauge', gauge_data, gauge_layout);
+    })
+     
+};
