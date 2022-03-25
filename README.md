@@ -26,12 +26,16 @@
 
     - Readme.md file for a short summary of the Project
     - Outputs: screeenshots of the Dashboard from localhostwebpage
-    - static/js/Codes: the .js | HTML | json files to generate the Dashboard
+    - Codes/static/js/: the app.js | HTML | .json files to generate the Dashboard
    
 ```diff
-- key findings: 
+- Author: 
 ```
 
+    Tracie B. Nguyen
+    Data Analyst
+    LinkedIn: https://www.linkedin.com/in/tracynguyen10/
+    email: tracynguyen.bautista@gmail.com
     
 
     
