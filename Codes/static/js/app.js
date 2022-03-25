@@ -1,6 +1,6 @@
 
 
-
+// initial page (Home page)
 // FUNCTION 1, set init() for dashboard and do dropdown button
 function init() {
 
@@ -15,6 +15,8 @@ d3.json("samples.json").then((data)=> {
   data.names.forEach(function(name) {
       dropdown.append("option").text(name).property("value",name);
   });
+  getDemoInfo("940")
+  tracie("940")
 });
 }
 
@@ -31,7 +33,7 @@ function getDemoInfo(id) {
         var metadata = data.metadata;
         console.log(metadata)
   
-        // filter meta data info by id
+        // filter meta data info by id | filter function return array of values (for loop in js)
         var result = metadata.filter(meta => meta.id.toString() === id)[0];
 
         // select demographic panel to put data
@@ -53,6 +55,7 @@ function getDemoInfo(id) {
 
 function optionChanged(id) {
   getDemoInfo(id);
+  tracie(id);
 }
 
 // Find the values for bar & buble charts from sample.js
@@ -64,7 +67,7 @@ function optionChanged(id) {
 function tracie(sampleValue) {
   // var selector = d3.select("#selDataset");
     d3.json("samples.json").then((data) => {
-      console.log(data)
+      // console.log(data)
 
       var metadatas = data.metadata
       console.log(metadatas)
@@ -90,25 +93,27 @@ function tracie(sampleValue) {
       var sample_value = filteredSample.sample_values;
       console.log(sample_value)
 
+      var yvalue = otu_id.slice(0,10).map(otu_id=> `OTU ${otu_id}`).reverse()
+
     // now create BAR CHART with above 3 arrays
     // Create a function for plotting first: 
     
 // create a Trace for plotting:
       var bar_values = [{
           x : sample_value.slice(0,10).reverse(),
-          y : otu_id.slice(0,10).map(otu_id=> `OTU ${otu_id}`).reverse(),
+          y : yvalue,
           text: otu_labels.slice(0,10).reverse(),
           type: "bar",
           orientation: "h",
-          marker: {color: "red"},
+          marker: {color: "lightsalmon"},
       }]
       
     // define the bar layout format: 
       var bar_format = {
           title: "Top 10 Microbial Species in Belly Button",
-          xaxis: "Bacteria Sample Values",
-          yaxis: "OTU IDs"
-      };
+          // xaxis: "Bacteria Sample Values",
+          // yaxis: "OTU IDs"
+      }
       
       Plotly.newPlot("bar", bar_values, bar_format)
 
@@ -123,14 +128,14 @@ function tracie(sampleValue) {
               size: sample_value,
               colorscale: "continent"
         }
-      }];
+      }]
 
     // Define bubble layout format:   
       var layout = {
         title: "Belly Button Samples",
         xaxis: {title: "OTU IDs"},
         yaxis: {title: "Sample Values"}
-      };
+      }
 
       Plotly.newPlot("bubble", bubble_values, layout)
     
@@ -153,10 +158,10 @@ function tracie(sampleValue) {
                         { range: [0, 3], color: 'rgb(253, 162, 73)' },
                         { range: [3, 6], color: 'rgb(242, 113, 102)' },
                         { range: [6, 9], color: 'rgb(166, 77, 104)' },
-                    ],
+                    ]
                 }
             }
-        ];
+        ]
 
         // Define Plot layout
         var gauge_layout = { width: 500, height: 400, margin: { t: 0, b: 0 } };
@@ -166,3 +171,4 @@ function tracie(sampleValue) {
     })
      
 };
+
