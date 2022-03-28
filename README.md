@@ -9,6 +9,16 @@
     
     The task is to create an interractive Dashboard for the users to explore how the microbes that colonize human navels. 
     
+    The study was carried out with >100 individuals. 
+    
+    and the outcome...
+    
+![ScreenShot_BellyButtonBio](https://user-images.githubusercontent.com/93897775/160320835-d8c68afb-6cbe-469c-bfa2-266b08444e53.png)
+    
+![ScreenShot_BellyButtonBiodiversify](https://user-images.githubusercontent.com/93897775/160320852-8316fea2-068c-4bd7-a50d-d6ea22b97fef.png)
+
+
+    
 ```diff
 - Tools and technology used: 
 ```
