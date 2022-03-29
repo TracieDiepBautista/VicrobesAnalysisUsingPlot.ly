@@ -1,4 +1,4 @@
-h1>
+
 .panel-default > .panel-heading-custom {
     background: #D24E68; color: #fff;
     padding-top: 5px;
@@ -16,4 +16,18 @@ h1>
 
 .jumbotron > h1 {
     text-shadow: 1px 1px 2px black;
+}
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: lightsalmon;
+}
+
+.panel-primary>.panel-heading {
+    color: #555;
+    background-color: darksalmon;
+    border-color: darksalmon;
 }
